@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <!-- ── Parent = Spring Boot 3.1.2 ───────────────────────────────────────────────── -->
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.1.2</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <!-- ── Project Coordinates ───────────────────────────────────────────────────────── -->
+  <groupId>com.example</groupId>
+  <artifactId>sample-app</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>sample-app</name>
+  <description>Demo: Boot 3.1.2 + Spring Cloud Kilburn + Kubernetes Reload (Java 21)</description>
+  <packaging>jar</packaging>
+
+  <!-- ── Properties ───────────────────────────────────────────────────────────────── -->
+  <properties>
+    <!-- Compile & run under Java 21 -->
+    <java.version>21</java.version>
+
+    <!-- Use Spring Cloud “Kilburn” (2022.0.4) with Boot 3.1.x -->
+    <spring-cloud.version>2022.0.4</spring-cloud.version>
+    <!-- Use Spring Cloud Kubernetes 3.2.1 (the latest 3.2.x for Kilburn) -->
+    <spring-cloud-kubernetes.version>3.2.1</spring-cloud-kubernetes.version>
+  </properties>
+
+  <!-- ── Import BOMs ───────────────────────────────────────────────────────────────── -->
+  <dependencyManagement>
+    <dependencies>
+      <!-- 1) Spring Cloud Dependencies (Kilburn) manages all Spring Cloud versions -->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- 2) Spring Cloud Kubernetes Dependencies (3.2.1) for Kilburn compatibility -->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-kubernetes-dependencies</artifactId>
+        <version>${spring-cloud-kubernetes.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- ── Application Dependencies ───────────────────────────────────────────────────── -->
+  <dependencies>
+    <!-- Spring Web (REST endpoints) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- Actuator (required for @RefreshScope & health endpoints) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <!-- Spring Cloud Kubernetes Config Client (includes reload support in 3.2.x) -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-kubernetes-client-config</artifactId>
+      <!-- version is inherited from spring-cloud-kubernetes-dependencies:3.2.1 -->
+    </dependency>
+  </dependencies>
+
+  <!-- ── Build Plugins ───────────────────────────────────────────────────────────────── -->
+  <build>
+    <plugins>
+      <!-- (a) Spring Boot Maven plugin to create an executable “fat JAR” -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- (b) Maven Compiler Plugin configured to compile with release 21 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+        <configuration>
+          <release>21</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

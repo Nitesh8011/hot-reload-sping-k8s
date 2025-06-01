@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: sample-app     # used as the default ConfigMap name in Kubernetes
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        name: sample-app   # look for a ConfigMap named “sample-app” in the same namespace
+      secrets:
+        enabled: true    # set to true if you also want to watch a Secret named “sample-app”
+      reload:
+        enabled: true
+        mode: event      # use Kubernetes watch events (rather than polling)
+        resources:
+          include-config-maps: true
+          include-secrets: false   # change to true if you watch a Secret as well
