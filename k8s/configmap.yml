@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sample-app
-  namespace: hot-reload
+  namespace: default
   labels:
     app: sample-app
 data:

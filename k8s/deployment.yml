@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sample-app
-  namespace: hot-reload
+  namespace: default
   labels:
     app: sample-app
 spec:
@@ -22,8 +22,8 @@ spec:
       serviceAccountName: reload-sa   # use our RBAC SA
       containers:
         - name: sample-app
-          image: nitesh8011/application:hot-reload
-          imagePullPolicy: Always
+          image: sample-app:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           env:
