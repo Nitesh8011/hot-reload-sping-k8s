@@ -22,8 +22,8 @@ spec:
       serviceAccountName: reload-sa   # use our RBAC SA
       containers:
         - name: sample-app
-          image: sample-app:latest
-          imagePullPolicy: IfNotPresent
+          image: nitesh8011/application:hot-reload
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

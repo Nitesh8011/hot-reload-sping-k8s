@@ -19,6 +19,13 @@ rules:
       - get
       - list
       - watch
+  - apiGroups: [""]
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
   # If you set spring.cloud.kubernetes.secrets.enabled: true, uncomment below:
   # - apiGroups: [""]
   #   resources:
