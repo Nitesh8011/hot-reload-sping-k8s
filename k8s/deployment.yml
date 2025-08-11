@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sample-app
+  namespace: hot-reload
   labels:
     app: sample-app
 spec:
@@ -14,14 +15,31 @@ spec:
     metadata:
       labels:
         app: sample-app
-    spec:
+      annotations:
+        # Add annotation to enable hot reload
+        reloader.stakater.com/auto: "true"
+    spec: 
       serviceAccountName: reload-sa   # use our RBAC SA
       containers:
         - name: sample-app
-          image: nitesh8011/application:hot_reload
+          image: nitesh8011/application:hot-reload
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-          envFrom:
-            - configMapRef:
-                name: sample-app
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "kubernetes"
+            - name: LOGGING_LEVEL_COM_EXAMPLE
+              value: "INFO"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 5

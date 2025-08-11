@@ -4,16 +4,64 @@ server:
 spring:
   application:
     name: sample-app     # used as the default ConfigMap name in Kubernetes
+  profiles:
+    active: local        # default to local profile
+  config:
+    import: "optional:kubernetes:"
+  cloud:
+    kubernetes:
+      config:
+        enabled: false   # disabled for local development
+        name: sample-app   # look for a ConfigMap named "sample-app" in the same namespace
+        sources:
+          - name: sample-app
+            namespace: hot-reload
+      secrets:
+        enabled: false   # disabled for local development
+      reload:
+        enabled: true    # enabled for local testing
+        mode: event      # use Kubernetes watch events (rather than polling)
+        period: 30000    # fallback polling period in milliseconds
+        resources:
+          include-config-maps: true
+          include-secrets: false   # change to true if you watch a Secret as well
+
+# Application-specific configuration
+app:
+  message: "Configuration changed! Testing hot reload! 🚀"
+  environment: "development"
+  refreshCount: 999
+
+# Actuator endpoints for monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh,configprops
+  endpoint:
+    health:
+      show-details: always
+
+# Logging configuration
+logging:
+  level:
+    com.example: INFO
+    org.springframework.cloud.kubernetes: INFO
+    org.springframework.cloud.context: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+---
+# Kubernetes profile configuration
+spring:
+  config:
+    activate:
+      on-profile: kubernetes
   cloud:
     kubernetes:
       config:
         enabled: true
-        name: sample-app   # look for a ConfigMap named “sample-app” in the same namespace
       secrets:
-        enabled: true    # set to true if you also want to watch a Secret named “sample-app”
+        enabled: true
       reload:
         enabled: true
-        mode: event      # use Kubernetes watch events (rather than polling)
-        resources:
-          include-config-maps: true
-          include-secrets: false   # change to true if you watch a Secret as well
