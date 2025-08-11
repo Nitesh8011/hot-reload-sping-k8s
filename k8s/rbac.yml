@@ -4,14 +4,12 @@ kind: ServiceAccount
 metadata:
   name: reload-sa
   namespace: default
-  namespace: hot-reload
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: configmap-watcher
   namespace: default
-  namespace: hot-reload
 rules:
   # Allow listing, watching, and getting ConfigMaps (and Secrets if you enable secrets)
   - apiGroups: [""]
@@ -35,11 +33,10 @@ kind: RoleBinding
 metadata:
   name: configmap-watcher-binding
   namespace: default
-  namespace: hot-reload
 subjects:
   - kind: ServiceAccount
     name: reload-sa
-    namespace: hot-reload
+    namespace: default
 roleRef:
   kind: Role
   name: configmap-watcher

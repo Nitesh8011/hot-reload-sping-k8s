@@ -15,7 +15,7 @@ spring:
         name: sample-app   # look for a ConfigMap named "sample-app" in the same namespace
         sources:
           - name: sample-app
-            namespace: hot-reload
+            namespace: default
       secrets:
         enabled: false   # disabled for local development
       reload:
