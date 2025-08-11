@@ -26,14 +26,13 @@ rules:
       - get
       - list
       - watch
-  # If you set spring.cloud.kubernetes.secrets.enabled: true, uncomment below:
-  # - apiGroups: [""]
-  #   resources:
-  #     - secrets
-  #   verbs:
-  #     - get
-  #     - list
-  #     - watch
+  - apiGroups: [""]
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
