@@ -5,8 +5,6 @@ Demonstrates hot-reloading configuration in a Spring Boot 3 app running on Kuber
 ### Stack
 - Java 24, Maven
 - Spring Boot 3.1.2
-- Spring Cloud 2022.0.x (Kilburn)
-- Spring Cloud Kubernetes 3.2.x
 - Kubernetes (minikube or kind for local)
 
 ### What it does
