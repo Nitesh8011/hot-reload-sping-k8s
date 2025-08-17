@@ -5,12 +5,8 @@ metadata:
   labels:
     app: hot-reload
 data:
-  # Deprecated: plain "message" is not used by the app; use "app.message" instead
-  message: "Initial hello from ConfigMap!"
-  
   # Application-specific configuration that will hot reload
-  app.message: "Hello from ConfigMap - Hot Reload Ready!"
-  app.cm1.message: "Hello from ConfigMap 1 - Hot Reload Ready!"
+  app.cm1.message: "Hello from ConfigMap 1!"
   app.environment: "Kubernetes"
   app.refreshCount: "1"
   
