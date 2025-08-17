@@ -17,7 +17,7 @@ public class MessageController {
     private ConfigurationChangeListener configListener;
 
     // Properties from ConfigMap 1 (hot-reload-cm)
-    @Value("${app.message:No message from ConfigMap 1}")
+    @Value("${app.cm1.message:No message from ConfigMap 1}")
     private String configMap1Message;
     
     @Value("${app.environment:No environment from ConfigMap 1}")
@@ -120,7 +120,7 @@ public class MessageController {
         sb.append("SPRING_PROFILES_ACTIVE: ").append(System.getenv("SPRING_PROFILES_ACTIVE")).append("\n\n");
         
         sb.append("ConfigMap 1 Properties:\n");
-        sb.append("app.message: ").append(configMap1Message).append("\n");
+        sb.append("app.cm1.message: ").append(configMap1Message).append("\n");
         sb.append("app.environment: ").append(configMap1Environment).append("\n");
         sb.append("app.refreshCount: ").append(configMap1RefreshCount).append("\n\n");
         
@@ -149,7 +149,7 @@ public class MessageController {
     
     @GetMapping("/test-cm2")
     public String testConfigMap2() {
-        return "ConfigMap 2 Message: " + configMap2Message + " | Database URL: " + configMap2DatabaseUrl + " | Cache TTL: " + configMap2CacheTtl;
+        return "ConfigMap 2 Message: " + configMap2Message;
     }
 
     @GetMapping("/manual-refresh")
@@ -170,7 +170,7 @@ public class MessageController {
         
         // Test if Spring properties are being loaded
         sb.append("Spring Properties:\n");
-        sb.append("app.message: ").append(configMap1Message).append("\n");
+        sb.append("app.cm1.message: ").append(configMap1Message).append("\n");
         sb.append("app.database.url: ").append(configMap2DatabaseUrl).append("\n");
         
         return sb.toString();

@@ -55,6 +55,7 @@ docker build -t sample-app:latest .
 ```bash
 kubectl apply -f k8s/rbac.yml
 kubectl apply -f k8s/configmap.yml
+kubectl apply -f k8s/configmap-2.yml
 kubectl apply -f k8s/deployment.yml
 kubectl apply -f k8s/service.yml
 kubectl rollout status deploy/sample-app -n default
@@ -92,8 +93,11 @@ curl -X POST http://localhost:8080/refresh
   - `spring.profiles.active: local` by default; Deployment sets `SPRING_PROFILES_ACTIVE=kubernetes`.
   - Kubernetes reload enabled (event mode).
 - `k8s/configmap.yml` provides `app.message`, `app.environment`, `app.refreshCount`.
-- `k8s/rbac.yml` sets `ServiceAccount` and grants `get/list/watch` on ConfigMaps (and pods) so the app can watch changes.
+- `k8s/configmap-2.yml` adds `app.cm2.message` plus database and cache properties.
 - `k8s/deployment.yml` runs the app with the `reload-sa` service account and exposes port 8080.
+  - Set `CONFIGMAP_NAMES` env var to a comma-separated list (defaults to `hot-reload-cm,hot-reload-cm-2`).
+    Update the variable to add or remove ConfigMaps without rebuilding the image.
+- `k8s/rbac.yml` sets `ServiceAccount` and grants `get/list/watch` on ConfigMaps (and pods) so the app can watch changes.
 
 ### Troubleshooting
 - Seeing the `application.yml` message instead of ConfigMap?
@@ -115,5 +119,6 @@ curl -X POST http://localhost:8080/refresh
 kubectl delete -f k8s/service.yml
 kubectl delete -f k8s/deployment.yml
 kubectl delete -f k8s/configmap.yml
+kubectl delete -f k8s/configmap-2.yml
 kubectl delete -f k8s/rbac.yml
 ```

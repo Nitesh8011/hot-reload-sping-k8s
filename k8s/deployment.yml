@@ -32,6 +32,7 @@ spec:
               value: "INFO"
             - name: CONFIGMAP_NAMES
               value: "hot-reload-cm,hot-reload-cm-2"
+              # Customize by editing this comma-separated list
             - name: NAMESPACE
               valueFrom:
                 fieldRef:
