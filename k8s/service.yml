@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sample-app
+  name: hot-reload-svc
   labels:
-    app: sample-app
+    app: hot-reload
 spec:
   selector:
-    app: sample-app
+    app: hot-reload
   ports:
     - protocol: TCP
       port: 8080

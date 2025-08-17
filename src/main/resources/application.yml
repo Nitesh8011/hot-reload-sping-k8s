@@ -3,34 +3,22 @@ server:
 
 spring:
   application:
-    name: sample-app     # used as the default ConfigMap name in Kubernetes
+    name: hot-reload     # matches the app label in Kubernetes
   profiles:
-    active: local        # default to local profile
+    active: kubernetes   # changed to kubernetes profile for full K8s deployment
   config:
-    import: "optional:kubernetes:"
+    import: "kubernetes:"  # changed from optional to required for K8s
   cloud:
     kubernetes:
       config:
-        enabled: false   # disabled for local development
-        name: sample-app   # look for a ConfigMap named "sample-app" in the same namespace
+        enabled: true
         sources:
-          - name: sample-app
-            namespace: default
-      secrets:
-        enabled: false   # disabled for local development
+          - name: hot-reload-cm
+          - name: hot-reload-cm-2
       reload:
-        enabled: true    # enabled for local testing
-        mode: event      # use Kubernetes watch events (rather than polling)
-        period: 30000    # fallback polling period in milliseconds
-        resources:
-          include-config-maps: true
-          include-secrets: false   # change to true if you watch a Secret as well
-
-# Application-specific configuration
-app:
-  message: "Configuration changed! Testing hot reload! 🚀"
-  environment: "development"
-  refreshCount: 999
+        enabled: true
+        mode: event
+        period: 30000
 
 # Actuator endpoints for monitoring
 management:
@@ -46,22 +34,11 @@ management:
 logging:
   level:
     com.example: INFO
-    org.springframework.cloud.kubernetes: INFO
-    org.springframework.cloud.context: INFO
+    org.springframework.cloud.kubernetes: DEBUG
+    org.springframework.cloud.context: DEBUG
+    org.springframework.boot.autoconfigure: DEBUG
+    org.springframework.cloud.kubernetes.commons: DEBUG
+    org.springframework.cloud.kubernetes.config: DEBUG
+    org.springframework.cloud.kubernetes.reload: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-
----
-# Kubernetes profile configuration
-spring:
-  config:
-    activate:
-      on-profile: kubernetes
-  cloud:
-    kubernetes:
-      config:
-        enabled: true
-      secrets:
-        enabled: true
-      reload:
-        enabled: true

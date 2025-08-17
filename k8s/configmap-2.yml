@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hot-reload-cm-2
+  labels:
+    app: hot-reload
+data:
+  # Message property to test hot reload (unique name to avoid conflicts)
+  app.cm2.message: "Hello from ConfigMap 2 - Database & Cache Config!"
+  
+  # Database configuration
+  app.database.url: "jdbc:postgresql://db-service:5432/mydb"
+  app.database.pool.size: "10"
+  app.database.timeout: "30s"
+  
+  # Cache configuration
+  app.cache.ttl: "300"
+  app.cache.max-size: "1000"
+  
+  # Feature flags
+  app.features.advanced-logging: "true"
+  app.features.metrics: "true"

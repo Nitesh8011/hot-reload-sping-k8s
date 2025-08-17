@@ -2,26 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sample-app
-  namespace: default
+  name: hot-reload-d
   labels:
-    app: sample-app
+    app: hot-reload
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sample-app
+      app: hot-reload
   template:
     metadata:
       labels:
-        app: sample-app
+        app: hot-reload
       annotations:
         # Add annotation to enable hot reload
         reloader.stakater.com/auto: "true"
     spec: 
-      serviceAccountName: reload-sa   # use our RBAC SA
+      serviceAccountName: hot-reload-sa   # use our RBAC SA
       containers:
-        - name: sample-app
+        - name: hot-reload
           image: nitesh8011/application:hot-reload
           imagePullPolicy: Always
           ports:
@@ -31,6 +30,12 @@ spec:
               value: "kubernetes"
             - name: LOGGING_LEVEL_COM_EXAMPLE
               value: "INFO"
+            - name: CONFIGMAP_NAMES
+              value: "hot-reload-cm,hot-reload-cm-2"
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           livenessProbe:
             httpGet:
               path: /actuator/health
