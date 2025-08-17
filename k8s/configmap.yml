@@ -1,17 +1,16 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sample-app
-  namespace: default
+  name: hot-reload-cm
   labels:
-    app: sample-app
+    app: hot-reload
 data:
   # Deprecated: plain "message" is not used by the app; use "app.message" instead
   message: "Initial hello from ConfigMap!"
   
   # Application-specific configuration that will hot reload
   app.message: "Hello from ConfigMap - Hot Reload Ready!"
-  app.environment: "production"
+  app.environment: "Kubernetes"
   app.refreshCount: "1"
   
   # Additional configuration properties
