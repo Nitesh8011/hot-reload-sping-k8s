@@ -6,7 +6,7 @@ metadata:
     app: hot-reload
 data:
   # Message property to test hot reload (unique name to avoid conflicts)
-  app.cm2.message: "Hello from ConfigMap 2 - Database & Cache Config!"
+  app.cm2.message: "Hello from ConfigMap 2!!"
   
   # Database configuration
   app.database.url: "jdbc:postgresql://db-service:5432/mydb"
