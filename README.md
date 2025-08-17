@@ -94,6 +94,8 @@ curl -X POST http://localhost:8080/refresh
 - `k8s/configmap.yml` provides `app.message`, `app.environment`, `app.refreshCount`.
 - `k8s/rbac.yml` sets `ServiceAccount` and grants `get/list/watch` on ConfigMaps (and pods) so the app can watch changes.
 - `k8s/deployment.yml` runs the app with the `reload-sa` service account and exposes port 8080.
+  - Set `CONFIGMAP_NAMES` env var to a comma-separated list (defaults to `hot-reload-cm`).
+    Update the variable to add or remove ConfigMaps without rebuilding the image.
 
 ### Troubleshooting
 - Seeing the `application.yml` message instead of ConfigMap?

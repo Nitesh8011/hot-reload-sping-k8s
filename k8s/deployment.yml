@@ -31,7 +31,8 @@ spec:
             - name: LOGGING_LEVEL_COM_EXAMPLE
               value: "INFO"
             - name: CONFIGMAP_NAMES
-              value: "hot-reload-cm,hot-reload-cm-2"
+              value: "hot-reload-cm"
+              # Add more ConfigMaps comma-separated, e.g. "hot-reload-cm,hot-reload-cm-2"
             - name: NAMESPACE
               valueFrom:
                 fieldRef:
