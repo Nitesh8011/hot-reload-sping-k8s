@@ -12,9 +12,6 @@ spring:
     kubernetes:
       config:
         enabled: true
-        sources:
-          - name: hot-reload-cm
-          - name: hot-reload-cm-2
       reload:
         enabled: true
         mode: event
